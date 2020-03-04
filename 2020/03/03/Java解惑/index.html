@@ -6,18 +6,16 @@
   <meta name="keywords" content=" 解惑 ">
   <meta name="description" content="Java解惑 | 我吃故我在">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="01 奇数的判定​    当你需要判定一个数是否为奇数时， 我想你大概会想到以下代码，但那是有错误的！ public static boolean isOdd(int i){         return i % 2 == 1; } ​    但我们仔细查看关于奇数的定义：  奇数（odd）指不能被2整除的整数 ，数学表达形式为：2k+1， 奇数可以分为正奇数和负奇数。  以上代码的错误，就是没考">
-<meta name="keywords" content="解惑">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Java解惑">
-<meta property="og:url" content="https://cloudylc.github.io/2020/03/03/Java解惑/index.html">
+<meta name="description" content="杨龙成的博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="我吃故我在">
+<meta property="og:url" content="https://cloudylc.github.io/categories/Java/index.html">
 <meta property="og:site_name" content="我吃故我在">
-<meta property="og:description" content="01 奇数的判定​    当你需要判定一个数是否为奇数时， 我想你大概会想到以下代码，但那是有错误的！ public static boolean isOdd(int i){         return i % 2 == 1; } ​    但我们仔细查看关于奇数的定义：  奇数（odd）指不能被2整除的整数 ，数学表达形式为：2k+1， 奇数可以分为正奇数和负奇数。  以上代码的错误，就是没考">
+<meta property="og:description" content="杨龙成的博客">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-03T01:44:09.228Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java解惑">
-<meta name="twitter:description" content="01 奇数的判定​    当你需要判定一个数是否为奇数时， 我想你大概会想到以下代码，但那是有错误的！ public static boolean isOdd(int i){         return i % 2 == 1; } ​    但我们仔细查看关于奇数的定义：  奇数（odd）指不能被2整除的整数 ，数学表达形式为：2k+1， 奇数可以分为正奇数和负奇数。  以上代码的错误，就是没考">
+<meta name="twitter:title" content="我吃故我在">
+<meta name="twitter:description" content="杨龙成的博客">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -242,7 +240,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-03-03 09:44:09'>2020-03-03 07:10</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-04 21:00:10'>2020-03-03 07:10</time>
         
     </div>
     <div class="article-meta">
@@ -279,11 +277,11 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="01-奇数的判定"><a href="#01-奇数的判定" class="headerlink" title="01 奇数的判定"></a>01 奇数的判定</h1><p>​    当你需要判定一个数是否为奇数时， 我想你大概会想到以下代码，但那是有错误的！</p>
+        <h1 id="01-奇数的判定"><a href="#01-奇数的判定" class="headerlink" title="01 奇数的判定"></a>01 奇数的判定</h1><p>​        当你需要判定一个数是否为奇数时， 我想你大概会想到以下代码，但那是有错误的！</p>
 <pre><code class="java">public static boolean isOdd(int i){    
     return i % 2 == 1;
 }</code></pre>
-<p>​    但我们仔细查看关于奇数的定义：</p>
+<p>​        但我们仔细查看关于奇数的定义：</p>
 <blockquote>
 <p>奇数（odd）指不能被2整除的整数 ，数学表达形式为：2k+1， 奇数可以分为正奇数和负奇数。</p>
 </blockquote>
@@ -295,7 +293,34 @@
 <pre><code class="java">public static boolean isOdd(int i){    
     return (i &amp; 1) != 0;
 }</code></pre>
-<h1 id="02-2-0-1-1-的结果"><a href="#02-2-0-1-1-的结果" class="headerlink" title="02 (2.0 - 1.1)的结果"></a>02 (2.0 - 1.1)的结果</h1><p>​    </p>
+<hr>
+<h1 id="02-2-0-1-1-的结果"><a href="#02-2-0-1-1-的结果" class="headerlink" title="02 (2.0 - 1.1)的结果"></a>02 (2.0 - 1.1)的结果</h1><p>​        观察以下代码，说出你的答案。</p>
+<pre><code class="java">public calss Change{
+    public static void main(String[] args){
+        System.out.printf(2.0 - 1.1);
+    }
+}</code></pre>
+<p>​        你可能以为答案是0.9，但你运行此程序，打印的结果确是0.8999999999999999。是不是觉得很奇怪？</p>
+<p>​        问题就出在1.1这个数并不能被精确的表示为一个double，而是被表示为最接近它的double值。更一般的说，计算机在对于浮点数的表示并非都是精确的，<strong>并非所有的小数都可以用二进制浮点数精确表示</strong>。</p>
+<p>​        以下是一个JDK 5.0或更新版本的陷阱，通过使用printf工具设置输出精度的方法更正该程序。但很遗憾的是，虽然显示的是正确的结果，但对于底层的实现仍旧是使用二进制浮点数的double运算。浮点运算在一个范围很广的值域上提供了很好的近似值，但通常不能产生精确的结果。对于实际开发而言，<strong>二进制浮点数对于货币计算是非常不适合的</strong>，因为二进制浮点数不可能将0.1或者10的任何次负幂，精确表示为一个有限长度的二进制小数。</p>
+<pre><code class="java">System.out.printf(&quot;%.2f%n&quot;,2.00 - 1.10);</code></pre>
+<p>​        解决的方法有两个，一个是把小数提升到整数运算，另外一个方式则是使用执行精确小数运算的BigDecimal。对于第一种解决方式，把1.1RMB变成110角，由float或double提升到int或long，但该方法需要确保该整数类型大到足以表示程序中将要用到的所有值。</p>
+<p>​        第二种解决方式，它还可以通过JDBC与SQL DECIMAL类型进行互操作。这里要告诫一点：<strong>一定要使用BigDecimal(String)构造器，千万不能使用BigDecimal(Double)</strong>。因为后者会使用它参数的精确值来创建一个实例，返回一个很奇怪的BigDecimal。</p>
+<pre><code class="java">BigDecimal aa = new BigDecimal(0.1);
+BigDecimal cc = new BigDecimal(&quot;0.1&quot;);
+// aa = 0.1000000000000000055511151231257827021181583404541015625
+// bb = 0.1</code></pre>
+<p>​        以下是正确使用BigDecimal来得到我们期望的0.90。但这个版本并非完美，因为Java并没有给BigDecimal提供任何语言上的帮助，在运行速度上可能比不过原生类型，对于大量使用小数计算的程序而言，这可能会成为问题，而对于大多数程序来说，这点显得一点也不重要。</p>
+<pre><code class="java">import java.math.BigDecimal;
+public class isOdd {
+    public static void main(String[] args) {
+        BigDecimal aa = new BigDecimal(&quot;2.0&quot;);
+        BigDecimal cc = new BigDecimal(&quot;1.1&quot;);
+        System.out.println(aa.subtract(cc));
+    }
+}
+</code></pre>
+<p>​        以上我们得到3方面的提示，<strong>在需要精确答案的地方，要避免使用float和double；对于货币计算，要使用int、long或BigDecimal。对于语言设计者来说，应该考虑对小数运算提供语言支持。</strong></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 cloudylc@outlook.com </span>
@@ -309,7 +334,7 @@
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨龙成">杨龙成</a></p>
     <p><span class="copy-title">发布时间:</span>2020-03-03, 07:10:53</p>
-    <p><span class="copy-title">最后更新:</span>2020-03-03, 09:44:09</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-04, 21:00:10</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/03/Java解惑/" title="Java解惑">https://cloudylc.github.io/2020/03/03/Java解惑/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
