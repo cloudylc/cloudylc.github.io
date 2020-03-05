@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="我吃故我在">
 <meta property="og:description" content="01 奇数的判定​        当你需要判定一个数是否为奇数时， 我想你大概会想到以下代码，但那是有错误的！ public static boolean isOdd(int i){         return i % 2 == 1; } ​        但我们仔细查看关于奇数的定义：  奇数（odd）指不能被2整除的整数 ，数学表达形式为：2k+1， 奇数可以分为正奇数和负奇数。  以上代码">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-04T13:00:10.803Z">
+<meta property="og:updated_time" content="2020-03-05T07:05:06.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java解惑">
 <meta name="twitter:description" content="01 奇数的判定​        当你需要判定一个数是否为奇数时， 我想你大概会想到以下代码，但那是有错误的！ public static boolean isOdd(int i){         return i % 2 == 1; } ​        但我们仔细查看关于奇数的定义：  奇数（odd）指不能被2整除的整数 ，数学表达形式为：2k+1， 奇数可以分为正奇数和负奇数。  以上代码">
@@ -242,7 +242,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-03-04 21:00:10'>2020-03-03 07:10</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-05 15:05:06'>2020-03-03 07:10</time>
         
     </div>
     <div class="article-meta">
@@ -264,7 +264,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#01-奇数的判定"><span class="toc-text">01 奇数的判定</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#02-2-0-1-1-的结果"><span class="toc-text">02 (2.0 - 1.1)的结果</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#01-奇数的判定"><span class="toc-text">01 奇数的判定</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#02-2-0-1-1-的结果"><span class="toc-text">02 (2.0 - 1.1)的结果</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#03-长整除"><span class="toc-text">03 长整除</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -323,6 +323,22 @@ public class isOdd {
 }
 </code></pre>
 <p>​        以上我们得到3方面的提示，<strong>在需要精确答案的地方，要避免使用float和double；对于货币计算，要使用int、long或BigDecimal。对于语言设计者来说，应该考虑对小数运算提供语言支持。</strong></p>
+<hr>
+<h1 id="03-长整除"><a href="#03-长整除" class="headerlink" title="03 长整除"></a>03 长整除</h1><p>​        当一天的微秒除以毫秒时，结果是多少？</p>
+<pre><code class="java">public static void main(String[] args){
+    final long MICROC_PER_DAY = 24 * 60 * 60 * 1000 * 1000;
+    final long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
+    System.out.println(MICROC_PER_DAY / MILLIS_PER_DAY);
+}</code></pre>
+<p>​        从直觉上，一天的微秒和毫秒仅差个因子1000，约去相同的部分，微秒除以毫秒的值应该是1000，所以上述程序打印的就应该是1000。但是运行该程序，打印的确是5，难道是溢出了？我都用上long了，怎么还会溢出呢？</p>
+<p>​        <strong>问题就出在计算机执行顺序和MICROC_PER_DAY确实溢出了</strong>。按照我们的数学习惯，遇到这种长整除的数，都不会直接算好两个数乘积在做除法运算，而是直接在两个数的乘积中寻找共同的因子，然后约去以此来简化计算。但是计算机执行上述程序时，依次执行第2行第3行代码算出一天中微秒和毫秒的结果，最后第4行才打印相除结果。<strong>这溢出的问题就出现在第二行的右值上（24x60x60x1000x1000），它是按照int类型去运算的，结果是864亿，远超出int最大范围21亿，得出溢出的结果后再赋值给long型的变量MICROC_PER_DAY，此刻已为时已晚。</strong>即使MILLIS_PER_DAY没有溢出且提升到long类型，但是另一个操作数已溢出，它们的运算结果就不会正确。</p>
+<p>​        <strong>解决办法的很容易，针对int类型的右值运算（24x60x60x1000x1000）提升到long型运算就行（24Lx60x60x1000x1000）</strong>，这样做就可以强制表达式中所有后续计算都用long运算来完成。虽然另一个操作数没有溢出，但是使用同样的方法却是个好习惯，以下程序就可以得到正确的答案1000。</p>
+<pre><code class="java"> public static void main(String[] args){
+        final long MICROC_PER_DAY = 24L * 60 * 60 * 1000 * 1000;
+        final long MILLIS_PER_DAY = 24L * 60 * 60 * 1000;
+        System.out.println(MICROC_PER_DAY / MILLIS_PER_DAY);
+    }</code></pre>
+<p>​        这个问题的原因，出在Java的语言特性上：<strong>Java不具有目标确定类型的特征</strong>。还是第2行代码为例，我们的目标MICROC_PER_DAY是long类型，但是Java没有上述机制，导致了我们的右值运算时不是目标的long类型。<strong>解决的问题很简单，在右值加上“L”强制使用long型即可，切莫使用小写“l”，容易与数字“1”混淆。</strong></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 cloudylc@outlook.com </span>
@@ -336,7 +352,7 @@ public class isOdd {
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="杨龙成">杨龙成</a></p>
     <p><span class="copy-title">发布时间:</span>2020-03-03, 07:10:53</p>
-    <p><span class="copy-title">最后更新:</span>2020-03-04, 21:00:10</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-05, 15:05:06</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/03/Java解惑/" title="Java解惑">https://cloudylc.github.io/2020/03/03/Java解惑/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
