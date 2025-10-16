@@ -482,7 +482,7 @@ footer:
 index:
   # 首页 Banner 头图，可以是相对路径或绝对路径，以下相同
   # Path of Banner image, can be a relative path or an absolute path, the same on other pages
-  banner_img: /img/default.png
+  banner_img: /img/default.jpg
 
   # 头图高度，屏幕百分比
   # Height ratio of banner image
@@ -503,7 +503,9 @@ index:
     # If empty, text based on `subtitle` in hexo config
     #text: "An elegant Material-Design theme for Hexo"
     #text: "Gubba nub nub doo rahkah"
-    text: "Done is better than perfect.."
+    #text: "Done is better than perfect.."
+    #text: "完成比完美更重要，粗糙的开始，才是最好的开始"
+    text: "怕什么真理无穷，进一寸有一寸的欢喜"
 
     # 通过 API 接口作为首页副标题的内容，必须返回的是 JSON 格式，如果请求失败则按 text 字段显示，该功能必须先开启 typing 打字机功能
     # Subtitle of the homepage through the API, must be returned a JSON. If the request fails, it will be displayed in `text` value. This feature must first enable the typing animation
@@ -556,7 +558,7 @@ index:
 # Post Page
 #---------------------------
 post:
-  banner_img: /img/default.png
+  banner_img: /img/default.jpg
   banner_img_height: 70
   banner_mask_alpha: 0.3
 
@@ -920,7 +922,7 @@ discuss:
 # Archive Page
 #---------------------------
 archive:
-  banner_img: /img/default.png
+  banner_img: /img/default.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
 
@@ -931,7 +933,7 @@ archive:
 #---------------------------
 category:
   enable: true
-  banner_img: /img/default.png
+  banner_img: /img/default.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
 
@@ -960,7 +962,7 @@ category:
 #---------------------------
 tag:
   enable: true
-  banner_img: /img/default.png
+  banner_img: /img/default.jpg
   banner_img_height: 80
   banner_mask_alpha: 0.3
   tagcloud:
@@ -977,7 +979,7 @@ tag:
 #---------------------------
 about:
   enable: true
-  banner_img: /img/default.png
+  banner_img: /img/default.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
   avatar: /img/bear.jpg
@@ -999,7 +1001,7 @@ about:
 # Custom Page through `hexo new page`
 #---------------------------
 page:
-  banner_img: /img/default.png
+  banner_img: /img/default.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
 
@@ -1010,7 +1012,7 @@ page:
 #---------------------------
 page404:
   enable: true
-  banner_img: /img/default.png
+  banner_img: /img/default.jpg
   banner_img_height: 85
   banner_mask_alpha: 0.3
   # 重定向到首页的延迟(毫秒)
