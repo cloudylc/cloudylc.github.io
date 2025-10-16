@@ -1,6 +1,7 @@
 ---
 title: 为什么Redis那么快
 date: 2025-10-16 19:31:29
+permalink: /posts/why-is-redis-so-fast.html
 index_img: /img/redis-requests-per-second.png
 excerpt: Redis到底有多快？Redis快的原因？本文基于官方数据一一解答！
 tags:
